@@ -1,0 +1,145 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|                                                                             |
+|    HiSA: High Speed Aerodynamic solver                                      |
+|    Copyright (C) 2014-2017 Johan Heyns - CSIR, South Africa                 |
+|    Copyright (C) 2014-2017 Oliver Oxtoby - CSIR, South Africa               |
+|                                                                             |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Streamwise Stations
+xL    -0.3048;
+x0    0;
+xMid  0.1524;
+xTE   0.3048;
+xU    0.9144;
+
+// Wall Boundaries
+yL    0;
+yU    0.5;
+
+// Diamond-wedge Height
+yW    0.025;
+
+vertices
+(
+    // z = 0
+    ($xL    $yL 0)   // 0
+    ($x0    $yL 0)   // 1  (LE on axis)
+    ($xMid  $yW 0)   // 2  (wedge peak)
+    ($xTE   $yL 0)   // 3  (TE on axis)
+    ($xU    $yL 0)   // 4
+
+    ($xL    $yU 0)   // 5
+    ($x0    $yU 0)   // 6
+    ($xMid  $yU 0)   // 7
+    ($xTE   $yU 0)   // 8
+    ($xU    $yU 0)   // 9
+
+    // z = 0.1 
+    ($xL    $yL 0.01) // 10
+    ($x0    $yL 0.01) // 11
+    ($xMid  $yW 0.01) // 12
+    ($xTE   $yL 0.01) // 13
+    ($xU    $yL 0.01) // 14
+
+    ($xL    $yU 0.01) // 15
+    ($x0    $yU 0.01) // 16
+    ($xMid  $yU 0.01) // 17
+    ($xTE   $yU 0.01) // 18
+    ($xU    $yU 0.01) // 19
+);
+
+blocks
+(
+    // Refinements in close to the nose and trailing edge.
+    hex (0  1  6  5  10 11 16 15) (90 160 1) simpleGrading (0.04 800 1)
+    hex (1  2  7  6  11 12 17 16) (90 160 1) simpleGrading (1    800 1)
+    hex (2  3  8  7  12 13 18 17) (90 160 1) simpleGrading (1    800 1)
+    hex (3  4  9  8  13 14 19 18) (90 160 1) simpleGrading (25   800 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    freestream
+    {
+        type patch;
+        faces
+        (
+            (5  6  16 15)
+            (6  7  17 16)
+            (7  8  18 17)
+            (8  9  19 18)
+        );
+    }
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 10 15 5)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (4 9 19 14)
+        );
+    }
+    inviscidWall
+    {
+        // Use this as a symmetry axis (y = yL) upstream and downstream of the wedge.
+        type symmetryPlane;
+        faces
+        (
+            (0  1  11 10)
+            (3  4  14 13)
+        );
+    }
+    viscousWall
+    {
+        type wall;
+        faces
+        (
+            // Diamond wedge surface: ramp up then ramp down
+            (1  2  12 11)
+            (2  3  13 12)
+        );
+    }
+
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 5 6 1)
+            (1 6 7 2)
+            (2 7 8 3)
+            (3 8 9 4)
+
+            (10 11 16 15)
+            (11 12 17 16)
+            (12 13 18 17)
+            (13 14 19 18)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
