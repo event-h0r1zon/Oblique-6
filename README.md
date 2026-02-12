@@ -89,6 +89,15 @@ From the repository root:
 - Optional line sampling is configured in `simulation/system/sampleDict`
 - Existing database/log helper files are present (`foamLog.db.*`)
 
+### Assets
+
+The files in `assets/` provide contour visualization data for **pressure**, **density**, **temperature**, and **Mach number**:
+
+- `assets/results.vtu` — VTU dataset for local ParaView/VTK workflows
+- `assets/overview.vtkjs` — VTK.js scene package for quick web viewing
+
+Open locally in ParaView, or load either file in ParaView Glance: https://kitware.github.io/glance/
+
 ## Notes
 
 - This is a focused benchmark-style case for hypersonic wedge-flow behavior using HiSA numerics.
