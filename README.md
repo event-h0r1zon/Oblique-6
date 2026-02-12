@@ -99,13 +99,13 @@ The files in `assets/` provide contour visualization data for **pressure**, **de
 #### Contours
 
 <p align="center">
-   <img src="assets/pressure_contour.png" alt="Pressure contour" width="50%" />
-   <img src="assets/density_contour.png" alt="Density contour" width="50%" />
+   <img src="assets/pressure_contour.png" alt="Pressure contour" width="48%" />
+   <img src="assets/density_contour.png" alt="Density contour" width="48%" />
 </p>
 
 <p align="center">
-   <img src="assets/temperature_contour.png" alt="Temperature contour" width="50%" />
-   <img src="assets/mach_contour.png" alt="Mach contour" width="50%" />
+   <img src="assets/temperature_contour.png" alt="Temperature contour" width="48%" />
+   <img src="assets/mach_contour.png" alt="Mach contour" width="48%" />
 </p>
 
 Open locally in ParaView, or load either file in ParaView Glance: https://kitware.github.io/glance/
